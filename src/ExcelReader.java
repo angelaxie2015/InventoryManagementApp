@@ -50,10 +50,9 @@ public class ExcelReader {
             String containerNO;
             String etaVal;
             String poNO;
-            boolean findDate = false;
+            boolean findETA = false;
             boolean findContainer = false;
             boolean findPO = false;
-            boolean findETA = false;
             boolean findItem = false;
             boolean findPc = false;
             int itemRow;
@@ -85,21 +84,25 @@ public class ExcelReader {
                         case STRING:
                             //finding the date
                             if(cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
-                                System.out.print(cell.getStringCellValue() + ": ");
+                                System.out.print("ETA: ");
                                 int colDate = cell.getAddress().getColumn() + 1;
                                 Cell temp = row.getCell(colDate);
-                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK)
+                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK) //in case there's empty cell between "ETA" and ":"
                                 {
                                     temp = row.getCell(colDate++);
                                 }
-                                if (temp.getStringCellValue().toString().contains(":"))
+                                if (temp.getCellTypeEnum() == CellType.STRING && temp.getStringCellValue().contains(":"))
                                     temp = row.getCell(colDate++);
+                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK)//in case there's empty cell between ":" and date
+                                {
+                                    temp = row.getCell(colDate++);
+                                }
                                 cellDate = df.format(temp.getDateCellValue());
                                 System.out.println(cellDate);
-                                findDate = true;
-                            }
+                                findETA = true;
+                            }/*
                             //finding the container number
-                            if(cell.getStringCellValue().contains("CONTAINER NO") || cell.getStringCellValue().contains("CNTR NO.")){
+                            if(cell.getStringCellValue().contains("CONTAINER") || cell.getStringCellValue().contains("CNTR")){
                                 System.out.print(cell.getStringCellValue());
                                 int tempCol = cell.getAddress().getColumn()+1;
                                 Cell temp = row.getCell(tempCol);
@@ -135,12 +138,12 @@ public class ExcelReader {
                                 pcRow = cell.getRowIndex();
                                 findPc = true;
                             }
-
-                            if(findPO && findDate && findContainer && findETA && findItem && findPc)
+*/
+                            if(findETA)//(findPO && findDate && findContainer && findETA && findItem && findPc)
                                 break;
                     }
-                    //if(findPO && findDate && findContainer && findETA && findItem && findPc)
-
+                    if(findETA)//(findPO && findDate && findContainer && findETA && findItem && findPc)
+                        break;
                 }
             }
 
