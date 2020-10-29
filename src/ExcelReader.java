@@ -1,6 +1,9 @@
 import java.io.*;
 
 import java.lang.Object;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -28,6 +31,8 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 public class ExcelReader {
     public static void main(String args[]){
+        String pattern = "MM/dd/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern); //formatting the date
 
     //一：选择load
 
@@ -42,6 +47,12 @@ public class ExcelReader {
 
         //3. for loop to go through the string array, 存储
         for(int i = 0; i < files.length; i++) {
+            String cellDate;
+            String containerNO;
+            String etaVal;
+            String poNO;
+
+
             String fileName = "input/" + files[i];
             FileInputStream fis = null;
             Workbook wb = null;
@@ -58,8 +69,48 @@ public class ExcelReader {
             XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
             for(Row row: sheet){
                 for(Cell cell: row){
-                    if(cell.equals("Date") || cell.equals("DATE"))
-                        System.out.println(cell);
+                    switch(cell.getCellTypeEnum()){
+                        case NUMERIC:
+                            break;
+                        case STRING:
+                            //finding the date
+                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
+                                System.out.print(cell.getStringCellValue());
+                                int colDate = cell.getAddress().getColumn() + 1;
+                                Cell temp = row.getCell(colDate);
+                                cellDate = df.format(temp.getDateCellValue());
+                                System.out.println(cellDate);
+                            }
+                            //finding the container number
+                            if(cell.getStringCellValue().contains("CONTAINER NO") || cell.getStringCellValue().contains("CNTR NO.")){
+                                System.out.print(cell.getStringCellValue());
+                                int tempCol = cell.getAddress().getColumn()+1;
+                                Cell temp = row.getCell(tempCol);
+                                containerNO = temp.getStringCellValue();
+                                System.out.println(containerNO);
+                            }
+                            //finding the ETA
+                            if(cell.getStringCellValue().contains("ETA")){
+                                System.out.print(cell.getStringCellValue());
+                                int etaCol = cell.getAddress().getColumn() + 1;
+                                Cell temp = row.getCell(etaCol);
+                                etaVal = df.format(temp.getDateCellValue());
+                                System.out.println(etaVal);
+                            }
+                            //finding PO#
+                            if(cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")){
+                                System.out.print(cell.getStringCellValue());
+                                for(int val = 1; val < 10; val++) {
+                                    int tempCol = cell.getAddress().getColumn() + val;
+                                    Cell temp = row.getCell(tempCol);
+                                    if(temp.getStringCellValue().contains(":")) {
+                                        poNO = row.getCell(temp.getColumnIndex() + 1).getStringCellValue();
+                                        System.out.println(poNO);
+                                        break;
+                                    }
+                                }
+                            }
+                    }
 
                 }
             }
