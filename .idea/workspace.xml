@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/Product.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExcelReader.java" afterDir="false" />
     </list>
@@ -80,7 +82,7 @@
       <option name="presentableId" value="Default" />
       <updated>1603844774498</updated>
       <workItem from="1603844782095" duration="5667000" />
-      <workItem from="1603982387414" duration="7069000" />
+      <workItem from="1603982387414" duration="7804000" />
     </task>
     <servers />
   </component>

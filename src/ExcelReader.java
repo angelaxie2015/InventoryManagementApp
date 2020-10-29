@@ -51,6 +51,10 @@ public class ExcelReader {
             String containerNO;
             String etaVal;
             String poNO;
+            boolean findDate = false;
+            boolean findContainer = false;
+            boolean findPO = false;
+            boolean findETA = false;
 
 
             String fileName = "input/" + files[i];
@@ -80,6 +84,7 @@ public class ExcelReader {
                                 Cell temp = row.getCell(colDate);
                                 cellDate = df.format(temp.getDateCellValue());
                                 System.out.println(cellDate);
+                                findDate = true;
                             }
                             //finding the container number
                             if(cell.getStringCellValue().contains("CONTAINER NO") || cell.getStringCellValue().contains("CNTR NO.")){
@@ -88,6 +93,7 @@ public class ExcelReader {
                                 Cell temp = row.getCell(tempCol);
                                 containerNO = temp.getStringCellValue();
                                 System.out.println(containerNO);
+                                findContainer = true;
                             }
                             //finding the ETA
                             if(cell.getStringCellValue().contains("ETA")){
@@ -96,6 +102,7 @@ public class ExcelReader {
                                 Cell temp = row.getCell(etaCol);
                                 etaVal = df.format(temp.getDateCellValue());
                                 System.out.println(etaVal);
+                                findETA = true;
                             }
                             //finding PO#
                             if(cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")){
@@ -106,30 +113,20 @@ public class ExcelReader {
                                     if(temp.getStringCellValue().contains(":")) {
                                         poNO = row.getCell(temp.getColumnIndex() + 1).getStringCellValue();
                                         System.out.println(poNO);
+                                        findPO = true;
                                         break;
                                     }
                                 }
                             }
+                            if(findPO && findDate && findContainer && findETA)
+                                break;
                     }
+                    if(findPO && findDate && findContainer && findETA)
+                        break;
 
                 }
             }
-
-//            sheet.getRow(8).getCell(2).setCellFormula("SUM(C5:C7) + SUM(C5:C7) * 0.1");
-//
-//            inputStream.close();
-//
-//            FileOutputStream outputStream = new FileOutputStream(excelFilePath);
-//            workbook.write(outputStream);
-//            workbook.close();
-//            outputStream.close();
-
-
-
-
-
-
-            //ii. store string for container
+            
 
             //i. look for item --> store in a string array of all the items.
             //item对应一个class --》date，Container，PCS
