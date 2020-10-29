@@ -1,7 +1,6 @@
 import java.io.*;
 
 import java.lang.Object;
-import org.apache.poi.extractor.POITextExtractor;
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,7 +8,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 
 /*
@@ -41,13 +42,42 @@ public class ExcelReader {
 
         //3. for loop to go through the string array, 存储
         for(int i = 0; i < files.length; i++) {
-            String fileName = files[i];
+            String fileName = "input/" + files[i];
+            FileInputStream fis = null;
+            Workbook wb = null;
+
             try {
-                FileInputStream fis = new FileInputStream(new File(fileName));
-            }catch(FileNotFoundException e){
+                fis = new FileInputStream(new File(fileName));
+                wb = new XSSFWorkbook(fis);
+            } catch(IOException e){
                 e.printStackTrace();
             }
             //i. store string for the date
+
+
+            XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
+            for(Row row: sheet){
+                for(Cell cell: row){
+                    if(cell.equals("Date") || cell.equals("DATE"))
+                        System.out.println(cell);
+
+                }
+            }
+
+//            sheet.getRow(8).getCell(2).setCellFormula("SUM(C5:C7) + SUM(C5:C7) * 0.1");
+//
+//            inputStream.close();
+//
+//            FileOutputStream outputStream = new FileOutputStream(excelFilePath);
+//            workbook.write(outputStream);
+//            workbook.close();
+//            outputStream.close();
+
+
+
+
+
+
             //ii. store string for container
 
             //i. look for item --> store in a string array of all the items.
@@ -62,33 +92,6 @@ public class ExcelReader {
         //4. search excel sheet
 
 
-//        String fileNAme = "test.xlsx";
-//
-//        try {
-//            FileInputStream fis = new FileInputStream(new File(fileNAme));
-//
-//            HSSFWorkbook wb = new HSSFWorkbook(fis);
-//
-//            HSSFSheet sheet = wb.getSheetAt(0);
-//            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-//
-//            for(Row row: sheet){
-//                for(Cell cell: row){
-//                    switch(cell.getCellType()){
-//                        case _NONE:
-//                            break;
-//                        case NUMERIC:
-//
-//
-//
-//                    }
-//
-//
-//                }
-//            }
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
     }
 
 }
