@@ -7,10 +7,7 @@ import java.text.SimpleDateFormat;
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
@@ -87,10 +84,26 @@ public class ExcelReader {
                             break;
                         case STRING:
                             //finding the date
-                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
-                                System.out.print(cell.getStringCellValue());
+//                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
+//                                System.out.print(cell.getStringCellValue());
+//                                int colDate = cell.getAddress().getColumn() + 1;
+//                                Cell temp = row.getCell(colDate);
+//                                cellDate = df.format(temp.getDateCellValue());
+//                                System.out.println(cellDate);
+//                                findDate = true;
+//                            }
+                            //finding the date
+                            //finding the date
+                            if(cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
+                                System.out.print(cell.getStringCellValue() + ": ");
                                 int colDate = cell.getAddress().getColumn() + 1;
                                 Cell temp = row.getCell(colDate);
+                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK)
+                                {
+                                    temp = row.getCell(colDate++);
+                                }
+                                if (temp.getStringCellValue().toString().contains(":"))
+                                    temp = row.getCell(colDate++);
                                 cellDate = df.format(temp.getDateCellValue());
                                 System.out.println(cellDate);
                                 findDate = true;
@@ -103,15 +116,6 @@ public class ExcelReader {
                                 containerNO = temp.getStringCellValue();
                                 System.out.println(containerNO);
                                 findContainer = true;
-                            }
-                            //finding the ETA
-                            if(cell.getStringCellValue().contains("ETA")){
-                                System.out.print(cell.getStringCellValue());
-                                int etaCol = cell.getAddress().getColumn() + 1;
-                                Cell temp = row.getCell(etaCol);
-                                etaVal = df.format(temp.getDateCellValue());
-                                System.out.println(etaVal);
-                                findETA = true;
                             }
                             //finding PO#
                             if(cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")){
