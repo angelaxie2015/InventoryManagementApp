@@ -24,6 +24,8 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
     3. input=ITEM# output=？
     4. 想要新的excel还是直接在program里search
 
+    1. ITEM#
+
 
 
 
@@ -55,6 +57,13 @@ public class ExcelReader {
             boolean findContainer = false;
             boolean findPO = false;
             boolean findETA = false;
+            boolean findItem = false;
+            boolean findPc = false;
+            int itemRow;
+            int itemCol;
+            int pcRow;
+            int pcCol;
+
 
 
             String fileName = "input/" + files[i];
@@ -118,20 +127,37 @@ public class ExcelReader {
                                     }
                                 }
                             }
-                            if(findPO && findDate && findContainer && findETA)
+                            //find item row and column
+                            if(cell.getStringCellValue().toUpperCase().contains("ITEM NO") || cell.getStringCellValue().toUpperCase().contains("ITEM#")){
+                                System.out.println(cell.getStringCellValue());
+                                itemCol = cell.getColumnIndex();
+                                itemRow = cell.getRowIndex();
+                                findItem = true;
+                            }
+                            //find pcs row and column
+                            if(cell.getStringCellValue().toUpperCase().equals("PCS")){
+                                System.out.println(cell.getStringCellValue());
+                                pcCol = cell.getColumnIndex();
+                                pcRow = cell.getRowIndex();
+                                findPc = true;
+                            }
+
+                            if(findPO && findDate && findContainer && findETA && findItem && findPc)
                                 break;
                     }
-                    if(findPO && findDate && findContainer && findETA)
+                    if(findPO && findDate && findContainer && findETA && findItem && findPc)
                         break;
 
                 }
             }
-            
+
 
             //i. look for item --> store in a string array of all the items.
             //item对应一个class --》date，Container，PCS
             //-> 对应的列求出来
             //-> 存储每一列--》global array or new excel sheet
+            
+
 
         }
 
