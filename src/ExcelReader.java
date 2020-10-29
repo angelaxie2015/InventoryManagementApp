@@ -1,7 +1,9 @@
 import java.io.*;
 
 import java.lang.Object;
-import org.apache.poi.extractor.POITextExtractor;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -9,7 +11,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Workbook;
-
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 
 /*
@@ -20,6 +24,8 @@ import org.apache.poi.ss.usermodel.Workbook;
     3. input=ITEM# output=？
     4. 想要新的excel还是直接在program里search
 
+    1. ITEM#
+
 
 
 
@@ -27,6 +33,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 public class ExcelReader {
     public static void main(String args[]){
+        String pattern = "MM/dd/yyyy";
+        DateFormat df = new SimpleDateFormat(pattern); //formatting the date
 
     //一：选择load
 
@@ -41,19 +49,115 @@ public class ExcelReader {
 
         //3. for loop to go through the string array, 存储
         for(int i = 0; i < files.length; i++) {
-            String fileName = files[i];
+            String cellDate;
+            String containerNO;
+            String etaVal;
+            String poNO;
+            boolean findDate = false;
+            boolean findContainer = false;
+            boolean findPO = false;
+            boolean findETA = false;
+            boolean findItem = false;
+            boolean findPc = false;
+            int itemRow;
+            int itemCol;
+            int pcRow;
+            int pcCol;
+
+
+
+            String fileName = "input/" + files[i];
+            FileInputStream fis = null;
+            Workbook wb = null;
+
             try {
-                FileInputStream fis = new FileInputStream(new File(fileName));
-            }catch(FileNotFoundException e){
+                fis = new FileInputStream(new File(fileName));
+                wb = new XSSFWorkbook(fis);
+            } catch(IOException e){
                 e.printStackTrace();
             }
             //i. store string for the date
-            //ii. store string for container
+
+
+            XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
+            for(Row row: sheet){
+                for(Cell cell: row){
+                    switch(cell.getCellTypeEnum()){
+                        case NUMERIC:
+                            break;
+                        case STRING:
+                            //finding the date
+                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
+                                System.out.print(cell.getStringCellValue());
+                                int colDate = cell.getAddress().getColumn() + 1;
+                                Cell temp = row.getCell(colDate);
+                                cellDate = df.format(temp.getDateCellValue());
+                                System.out.println(cellDate);
+                                findDate = true;
+                            }
+                            //finding the container number
+                            if(cell.getStringCellValue().contains("CONTAINER NO") || cell.getStringCellValue().contains("CNTR NO.")){
+                                System.out.print(cell.getStringCellValue());
+                                int tempCol = cell.getAddress().getColumn()+1;
+                                Cell temp = row.getCell(tempCol);
+                                containerNO = temp.getStringCellValue();
+                                System.out.println(containerNO);
+                                findContainer = true;
+                            }
+                            //finding the ETA
+                            if(cell.getStringCellValue().contains("ETA")){
+                                System.out.print(cell.getStringCellValue());
+                                int etaCol = cell.getAddress().getColumn() + 1;
+                                Cell temp = row.getCell(etaCol);
+                                etaVal = df.format(temp.getDateCellValue());
+                                System.out.println(etaVal);
+                                findETA = true;
+                            }
+                            //finding PO#
+                            if(cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")){
+                                System.out.print(cell.getStringCellValue());
+                                for(int val = 1; val < 10; val++) {
+                                    int tempCol = cell.getAddress().getColumn() + val;
+                                    Cell temp = row.getCell(tempCol);
+                                    if(temp.getStringCellValue().contains(":")) {
+                                        poNO = row.getCell(temp.getColumnIndex() + 1).getStringCellValue();
+                                        System.out.println(poNO);
+                                        findPO = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            //find item row and column
+                            if(cell.getStringCellValue().toUpperCase().contains("ITEM NO") || cell.getStringCellValue().toUpperCase().contains("ITEM#")){
+                                System.out.println(cell.getStringCellValue());
+                                itemCol = cell.getColumnIndex();
+                                itemRow = cell.getRowIndex();
+                                findItem = true;
+                            }
+                            //find pcs row and column
+                            if(cell.getStringCellValue().toUpperCase().equals("PCS")){
+                                System.out.println(cell.getStringCellValue());
+                                pcCol = cell.getColumnIndex();
+                                pcRow = cell.getRowIndex();
+                                findPc = true;
+                            }
+
+                            if(findPO && findDate && findContainer && findETA && findItem && findPc)
+                                break;
+                    }
+                    if(findPO && findDate && findContainer && findETA && findItem && findPc)
+                        break;
+
+                }
+            }
+
 
             //i. look for item --> store in a string array of all the items.
             //item对应一个class --》date，Container，PCS
             //-> 对应的列求出来
             //-> 存储每一列--》global array or new excel sheet
+            
+
 
         }
 
@@ -62,33 +166,6 @@ public class ExcelReader {
         //4. search excel sheet
 
 
-//        String fileNAme = "test.xlsx";
-//
-//        try {
-//            FileInputStream fis = new FileInputStream(new File(fileNAme));
-//
-//            HSSFWorkbook wb = new HSSFWorkbook(fis);
-//
-//            HSSFSheet sheet = wb.getSheetAt(0);
-//            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-//
-//            for(Row row: sheet){
-//                for(Cell cell: row){
-//                    switch(cell.getCellType()){
-//                        case _NONE:
-//                            break;
-//                        case NUMERIC:
-//
-//
-//
-//                    }
-//
-//
-//                }
-//            }
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
     }
 
 }
