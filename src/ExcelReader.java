@@ -84,10 +84,33 @@ public class ExcelReader {
                             break;
                         case STRING:
                             //finding the date
+<<<<<<< HEAD
                             if (cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
                                 System.out.print("ETA: ");
                                 int tempCol = cell.getAddress().getColumn() + 1;
                                 Cell temp = findCellCol(row, tempCol);
+=======
+//                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
+//                                System.out.print(cell.getStringCellValue());
+//                                int colDate = cell.getAddress().getColumn() + 1;
+//                                Cell temp = row.getCell(colDate);
+//                                cellDate = df.format(temp.getDateCellValue());
+//                                System.out.println(cellDate);
+//                                findDate = true;
+//                            }
+                            //finding the date
+                            //finding the date
+                            if(cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
+                                System.out.print(cell.getStringCellValue() + ": ");
+                                int colDate = cell.getAddress().getColumn() + 1;
+                                Cell temp = row.getCell(colDate);
+                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK)
+                                {
+                                    temp = row.getCell(colDate++);
+                                }
+                                if (temp.getStringCellValue().toString().contains(":"))
+                                    temp = row.getCell(colDate++);
+>>>>>>> master
                                 cellDate = df.format(temp.getDateCellValue());
                                 System.out.println(cellDate);
                                 findETA = true;
