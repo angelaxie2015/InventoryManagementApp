@@ -1,12 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExcelReader.java" afterDir="false" />
-    </list>
+    <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +77,7 @@
       <updated>1603844774498</updated>
       <workItem from="1603844782095" duration="5667000" />
       <workItem from="1603982387414" duration="8632000" />
-      <workItem from="1604002053517" duration="209000" />
+      <workItem from="1604002053517" duration="555000" />
     </task>
     <servers />
   </component>
