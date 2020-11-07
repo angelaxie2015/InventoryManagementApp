@@ -3,12 +3,12 @@ public class Product {
     String item;
     String containerNo;
     private String eta;
-    private int pcs;
+    private double pcs;
     public Product(){
 
     }
 
-    public Product(String poNum, String item, String containerNo, String eta, int pcs){
+    public Product(String poNum, String item, String containerNo, String eta, double pcs){
         this.poNum = poNum;
         this.item = item;
         this.containerNo = containerNo;
@@ -35,24 +35,24 @@ public class Product {
     public void setPCs(int pcs){
         this.pcs = pcs;
     }
-    String getPoNum(){
+    public String getPoNum(){
         return poNum;
     }
 
-    String getItem(){
+    public String getItem(){
         return item;
     }
 
 
-    String getContainerNo(){
+    public String getContainerNo(){
         return containerNo;
     }
 
-    String getEta(){
+    public String getEta(){
         return eta;
     }
 
-    int getPcs(){
+    public double getPcs(){
         return  pcs;
     }
 }

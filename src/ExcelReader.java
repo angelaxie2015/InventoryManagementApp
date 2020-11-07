@@ -24,6 +24,13 @@ import javax.swing.*;
 /*
 
     TODO:
+
+    1. title 和内容不能在一个格子
+        e.g. : CNTR and the number itself
+    2. 把CNTR等东西放到最开头为最好
+
+
+
     1. 更多的表格
     2. 表格的格式是否都是一样的
     3. input=ITEM# output=？
@@ -56,7 +63,7 @@ public class ExcelReader {
         m1.add(m22);
 
         // Text Area at the Center
-        JTextArea ta = new JTextArea();
+
 
         //Creating the panel at bottom and adding components
         JPanel panel = new JPanel(); // the panel is not visible in output
@@ -64,6 +71,8 @@ public class ExcelReader {
         JTextField tf = new JTextField(20); // accepts upto 10 characters
         JButton search = new JButton("Search");
         JButton reset = new JButton("Reset");
+        JTextArea ta = new JTextArea();
+        frame.getContentPane().add(BorderLayout.CENTER, ta);
 
         panel.add(label); // Components Added using Flow Layout
         panel.add(tf);
@@ -73,7 +82,7 @@ public class ExcelReader {
         //Adding Components to the frame.
         frame.getContentPane().add(BorderLayout.SOUTH, panel);
         frame.getContentPane().add(BorderLayout.NORTH, mb);
-        frame.getContentPane().add(BorderLayout.CENTER, ta);
+
         frame.setVisible(true);
 
 
@@ -100,20 +109,19 @@ public class ExcelReader {
                     System.out.println(name);
 
 
-                String cellDate;
-                String containerNO;
-                String etaVal;
-                String poNO = "";
 
-
-                int itemRow;
-                int itemCol;
-                int pcRow;
-                int pcCol;
+                int itemRow=0;
+                int itemCol=0;
+                int pcRow=0;
+                int pcCol=0;
 
 
                 //3. for loop to go through the string array, 存储
                 for (int i = 0; i < files.length; i++) {
+                    String cellDate="";
+                    String containerNO="";
+                    String pcs="";
+                    String poNO = "";
                     boolean findETA = false;
                     boolean findContainer = false;
                     boolean findPO = false;
@@ -148,38 +156,60 @@ public class ExcelReader {
                                         Cell temp = findCellCol(row, tempCol);
                                         cellDate = df.format(temp.getDateCellValue());
                                         System.out.println(cellDate);
+                                        findETA = true;
                                     }
 
                                     //finding the container number
-                                    if (cell.getStringCellValue().contains("CONTAINER") || cell.getStringCellValue().contains("CNTR")) {
+                                    else if (cell.getStringCellValue().contains("CONTAINER") || cell.getStringCellValue().contains("CNTR")) {
                                         System.out.print("CONTAINER NUMBER: ");
                                         int tempCol = cell.getAddress().getColumn() + 1;
                                         Cell temp = findCellCol(row, tempCol);
                                         containerNO = temp.getStringCellValue();
                                         System.out.println(containerNO);
+                                        findContainer = true;
                                     }
                                     //finding PO#
-                                    if (cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")) {
+                                    else if (cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")) {
                                         System.out.println();
                                         System.out.print("PURCHASE ORDER:");
                                         int tempCol = cell.getAddress().getColumn() + 1;
                                         Cell temp = findCellCol(row, tempCol);
                                         poNO = temp.getStringCellValue();
                                         System.out.println(poNO);
+                                        findPO = true;
                                     }
                                     //find item row and column
-                                    if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("ITEM")) {
+                                    else if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("ITEM")) {
                                         System.out.println(cell.getStringCellValue());
                                         itemCol = cell.getColumnIndex();
+                                        findContainer = true;
                                     }
                                     //find pcs row and column
-                                    if (cell.getStringCellValue().toUpperCase().contains("PCS")) {
+                                    else if (cell.getStringCellValue().toUpperCase().contains("PCS")) {
                                         System.out.println(cell.getStringCellValue());
                                         pcCol = cell.getColumnIndex();
+                                        findPc = true;
                                     }
-                                    if (cell.getStringCellValue().equals(toFind)) {
+                                    else if (cell.getStringCellValue().equals(toFind)) {
                                         System.out.println(toFind);
-                                       // Product product = new Product()
+                                        findItem = true;
+                                        int diff = pcCol - itemCol;
+                                        Row tempRow = cell.getRow();
+                                        Cell pcTempCell = tempRow.getCell(cell.getColumnIndex() + diff);
+                                        System.out.println(pcTempCell.getNumericCellValue());
+                                        double pcNum = pcTempCell.getNumericCellValue();
+                                        Product product = new Product(poNO, toFind, containerNO,cellDate, pcNum);
+                                        products.add(product);
+                                    }
+
+                                    if (findETA && findPO && findContainer && findItem && findPc){
+//                                        int diff = pcCol - itemCol;
+//                                        Row tempRow = cell.getRow();
+//                                        Cell pcTempCell = tempRow.getCell(cell.getColumnIndex() + diff);
+//                                        System.out.println(pcTempCell.getNumericCellValue());
+//                                        double pcNum = pcTempCell.getNumericCellValue();
+//                                        Product product = new Product(poNO, toFind, containerNO,cellDate, pcNum);
+//                                        products.add(product);
                                     }
 
                             }
@@ -195,13 +225,18 @@ public class ExcelReader {
 
                 }
 
-                String result = "\nPO#: " + poNO + "\npcs: \nContainer NO/ seal: \nETA: ";
+                System.out.println(products.size());
+
+                String combined = "";
+                for(Product pro: products) {
+                    String result = "\nPO#: " + pro.getPoNum() + "\npcs: " + pro.getPcs() + "\nContainer NO/ seal: " + pro.getContainerNo() + "\nETA: " + pro.getEta() + "\n\n";
 
 
-                String temp = "Item: " + tf.getText();
-                final String combined = temp + result;
-                ta.setFont(new Font("Ariel", Font.PLAIN, 18));
-                ta.setText(combined);
+                    String temp = "Item: " + tf.getText();
+                    combined = combined + temp + result;
+                    ta.setFont(new Font("Ariel", Font.PLAIN, 18));
+                    ta.setText(combined);
+                }
             }
         });
 
