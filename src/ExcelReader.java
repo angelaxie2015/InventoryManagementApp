@@ -1,3 +1,7 @@
+import java.awt.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.*;
 
 import java.lang.Object;
@@ -13,6 +17,8 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.streaming.SXSSFWorkbook;
+
+import javax.swing.*;
 
 
 /*
@@ -32,6 +38,59 @@ import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 
 public class ExcelReader {
     public static void main(String args[]) {
+
+        //Creating the Frame
+        JFrame frame = new JFrame("Search Frame");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(600, 500);
+
+        //Creating the MenuBar and adding components
+        JMenuBar mb = new JMenuBar();
+        JMenu m1 = new JMenu("FILE");//
+        JMenu m2 = new JMenu("Help");//use this to open README
+        mb.add(m1);
+        mb.add(m2);
+        JMenuItem m11 = new JMenuItem("Open");
+        JMenuItem m22 = new JMenuItem("Save as");
+        m1.add(m11);
+        m1.add(m22);
+
+        // Text Area at the Center
+        JTextArea ta = new JTextArea();
+
+        //Creating the panel at bottom and adding components
+        JPanel panel = new JPanel(); // the panel is not visible in output
+        JLabel label = new JLabel("Enter item number:");
+        JTextField tf = new JTextField(20); // accepts upto 10 characters
+        JButton search = new JButton("Search");
+        JButton reset = new JButton("Reset");
+
+        panel.add(label); // Components Added using Flow Layout
+        panel.add(tf);
+        panel.add(search);
+        panel.add(reset);
+
+        //Adding Components to the frame.
+        frame.getContentPane().add(BorderLayout.SOUTH, panel);
+        frame.getContentPane().add(BorderLayout.NORTH, mb);
+        frame.getContentPane().add(BorderLayout.CENTER, ta);
+        frame.setVisible(true);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ArrayList<Product> products = new ArrayList<Product>();
         String pattern = "MM/dd/yyyy";
         DateFormat df = new SimpleDateFormat(pattern); //formatting the date
 
@@ -46,21 +105,43 @@ public class ExcelReader {
         for (String name : files)
             System.out.println(name);
 
+
+
+
+
+        String cellDate;
+        String containerNO;
+        String etaVal;
+        String poNO = "";
+        final String[] toFind = {""};
+
+        int itemRow;
+        int itemCol;
+        int pcRow;
+        int pcCol;
+
+
+        search.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                String temp = "Item: " + tf.getText();
+                toFind[0] += temp;
+            }
+        });
+
+        System.out.println("herheraklsjlakjf");
+        System.out.println(toFind[0]);
+        System.out.println();
+
+
+
+
         //3. for loop to go through the string array, 存储
         for (int i = 0; i < files.length; i++) {
-            String cellDate;
-            String containerNO;
-            String etaVal;
-            String poNO;
             boolean findETA = false;
             boolean findContainer = false;
             boolean findPO = false;
             boolean findItem = false;
             boolean findPc = false;
-            int itemRow;
-            int itemCol;
-            int pcRow;
-            int pcCol;
 
 
             String fileName = "input/" + files[i];
@@ -75,42 +156,19 @@ public class ExcelReader {
             }
             //i. store string for the date
 
-
             XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
             for (Row row : sheet) {
                 for (Cell cell : row) {
+
                     switch (cell.getCellTypeEnum()) {
                         case NUMERIC:
                             break;
                         case STRING:
                             //finding the date
-<<<<<<< HEAD
                             if (cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
                                 System.out.print("ETA: ");
                                 int tempCol = cell.getAddress().getColumn() + 1;
                                 Cell temp = findCellCol(row, tempCol);
-=======
-//                            if(cell.getStringCellValue().contains("Date") || cell.getStringCellValue().contains("DATE")) {
-//                                System.out.print(cell.getStringCellValue());
-//                                int colDate = cell.getAddress().getColumn() + 1;
-//                                Cell temp = row.getCell(colDate);
-//                                cellDate = df.format(temp.getDateCellValue());
-//                                System.out.println(cellDate);
-//                                findDate = true;
-//                            }
-                            //finding the date
-                            //finding the date
-                            if(cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
-                                System.out.print(cell.getStringCellValue() + ": ");
-                                int colDate = cell.getAddress().getColumn() + 1;
-                                Cell temp = row.getCell(colDate);
-                                while (temp == null || temp.getCellTypeEnum() == CellType.BLANK)
-                                {
-                                    temp = row.getCell(colDate++);
-                                }
-                                if (temp.getStringCellValue().toString().contains(":"))
-                                    temp = row.getCell(colDate++);
->>>>>>> master
                                 cellDate = df.format(temp.getDateCellValue());
                                 System.out.println(cellDate);
                                 findETA = true;
@@ -154,6 +212,10 @@ public class ExcelReader {
                             if (findETA && findPO && findContainer && findItem && findPc)
                                 break;
                     }
+
+
+
+
                     if (findETA && findPO && findContainer && findItem && findPc)
                         break;
                 }
@@ -166,7 +228,23 @@ public class ExcelReader {
             //-> 存储每一列--》global array or new excel sheet (update: 每个月的单子不是一起来的，所以还是要做成arraylist)
 
 
+
         }
+
+        String result = "\nPO#: " + poNO + "\npcs: \nContainer NO/ seal: \nETA: ";
+
+        search.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                String temp = "Item: " + tf.getText();
+                final String combined =  temp + result;
+                ta.setFont(new Font("Ariel", Font.PLAIN, 18));
+                ta.setText(combined);
+            }
+        });
+
+
+
+
 
         // 二： load 好了，选择search
 
@@ -174,7 +252,19 @@ public class ExcelReader {
 
 
         //finding the column of the cell with information looking for
+
+
+
+
+
+
+
+
+
+
+
     }
+
     public static Cell findCellCol (Row row,int column){
         Cell temp = row.getCell(column);
         while (temp == null || temp.getCellTypeEnum() == CellType.BLANK) //in case there's empty cell between "CNTR" and ":"
@@ -190,4 +280,7 @@ public class ExcelReader {
         return temp;
     }
 
+
+
 }
+

@@ -13,7 +13,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/commons-collections4-4.1.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/poi/commons-collections4-4.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -22,7 +22,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/poi-ooxml-3.17.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/poi/poi-3.17.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -31,7 +31,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/poi-ooxml-schemas-3.17.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/poi/poi-ooxml-3.17.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -40,7 +40,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/poi-3.17.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/poi/poi-ooxml-schemas-3.17.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -49,20 +49,10 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Desktop/xmlbeans-2.6.0.jar!/" />
+          <root url="jar://$USER_HOME$/Desktop/poi/xmlbeans-2.6.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library>
-        <CLASSES>
-          <root url="file://$USER_HOME$/Desktop/PoiNew" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-        <jarDirectory url="file://$USER_HOME$/Desktop/PoiNew" recursive="false" />
       </library>
     </orderEntry>
   </component>

@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-<<<<<<< HEAD
     <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ExcelReader.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ExcelReader.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/Product.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExcelReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Product.java" afterDir="false" />
     </list>
-=======
-    <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
->>>>>>> master
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -51,7 +50,19 @@
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Application.ExcelReader">
     <configuration name="ExcelReader" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="INCLUDE_PROVIDED_SCOPE" value="true" />
       <option name="MAIN_CLASS_NAME" value="ExcelReader" />
@@ -60,13 +71,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
-      <option name="arquillianRunConfiguration">
-        <value>
-          <option name="containerStateName" value="" />
-        </value>
-      </option>
-      <option name="TEST_OBJECT" value="class" />
+    <configuration name="gui" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="gui" />
+      <module name="ExcelReader" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -74,10 +81,11 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.ExcelReader" />
+        <item itemvalue="Application.gui" />
       </list>
     </recent_temporary>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration />
   </component>
@@ -89,17 +97,14 @@
       <option name="presentableId" value="Default" />
       <updated>1603844774498</updated>
       <workItem from="1603844782095" duration="5667000" />
-<<<<<<< HEAD
       <workItem from="1603982387414" duration="8580000" />
       <workItem from="1603997795025" duration="4372000" />
       <workItem from="1604003616156" duration="1110000" />
       <workItem from="1604005014636" duration="15000" />
       <workItem from="1604005281711" duration="23000" />
       <workItem from="1604171852847" duration="6815000" />
-=======
       <workItem from="1603982387414" duration="8632000" />
       <workItem from="1604002053517" duration="555000" />
->>>>>>> master
     </task>
     <servers />
   </component>
@@ -111,12 +116,13 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="COLUMN_ORDER" />
+            </State>
           </value>
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
     <state x="224" y="154" key="FileChooserDialogImpl" timestamp="1603997645269">
