@@ -77,173 +77,133 @@ public class ExcelReader {
         frame.setVisible(true);
 
 
+        search.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
 
 
+                String toFind = tf.getText();
 
 
+                ArrayList<Product> products = new ArrayList<Product>();
+                String pattern = "MM/dd/yyyy";
+                DateFormat df = new SimpleDateFormat(pattern); //formatting the date
+
+                //一：选择load
+
+                //1. put all the files in a folder
+
+                //2. store all the excel files in a string array as the names of the files;
+                File f = new File("input/");
+
+                String[] files = f.list();
+                for (String name : files)
+                    System.out.println(name);
 
 
+                String cellDate;
+                String containerNO;
+                String etaVal;
+                String poNO = "";
 
 
+                int itemRow;
+                int itemCol;
+                int pcRow;
+                int pcCol;
 
 
+                //3. for loop to go through the string array, 存储
+                for (int i = 0; i < files.length; i++) {
+                    boolean findETA = false;
+                    boolean findContainer = false;
+                    boolean findPO = false;
+                    boolean findItem = false;
+                    boolean findPc = false;
 
 
+                    String fileName = "input/" + files[i];
+                    FileInputStream fis = null;
+                    Workbook wb = null;
 
-        ArrayList<Product> products = new ArrayList<Product>();
-        String pattern = "MM/dd/yyyy";
-        DateFormat df = new SimpleDateFormat(pattern); //formatting the date
+                    try {
+                        fis = new FileInputStream(new File(fileName));
+                        wb = new XSSFWorkbook(fis);
+                    } catch (IOException em) {
+                        em.printStackTrace();
+                    }
+                    //i. store string for the date
 
-        //一：选择load
+                    XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
+                    for (Row row : sheet) {
+                        for (Cell cell : row) {
 
-        //1. put all the files in a folder
+                            switch (cell.getCellTypeEnum()) {
+                                case NUMERIC:
+                                    break;
+                                case STRING:
+                                    //finding the date
+                                    if (cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
+                                        System.out.print("ETA: ");
+                                        int tempCol = cell.getAddress().getColumn() + 1;
+                                        Cell temp = findCellCol(row, tempCol);
+                                        cellDate = df.format(temp.getDateCellValue());
+                                        System.out.println(cellDate);
+                                    }
 
-        //2. store all the excel files in a string array as the names of the files;
-        File f = new File("input/");
+                                    //finding the container number
+                                    if (cell.getStringCellValue().contains("CONTAINER") || cell.getStringCellValue().contains("CNTR")) {
+                                        System.out.print("CONTAINER NUMBER: ");
+                                        int tempCol = cell.getAddress().getColumn() + 1;
+                                        Cell temp = findCellCol(row, tempCol);
+                                        containerNO = temp.getStringCellValue();
+                                        System.out.println(containerNO);
+                                    }
+                                    //finding PO#
+                                    if (cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")) {
+                                        System.out.println();
+                                        System.out.print("PURCHASE ORDER:");
+                                        int tempCol = cell.getAddress().getColumn() + 1;
+                                        Cell temp = findCellCol(row, tempCol);
+                                        poNO = temp.getStringCellValue();
+                                        System.out.println(poNO);
+                                    }
+                                    //find item row and column
+                                    if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("ITEM")) {
+                                        System.out.println(cell.getStringCellValue());
+                                        itemCol = cell.getColumnIndex();
+                                    }
+                                    //find pcs row and column
+                                    if (cell.getStringCellValue().toUpperCase().contains("PCS")) {
+                                        System.out.println(cell.getStringCellValue());
+                                        pcCol = cell.getColumnIndex();
+                                    }
+                                    if (cell.getStringCellValue().equals(toFind)) {
+                                        System.out.println(toFind);
+                                       // Product product = new Product()
+                                    }
 
-        String[] files = f.list();
-        for (String name : files)
-            System.out.println(name);
-
-
-
-
-
-        String cellDate;
-        String containerNO;
-        String etaVal;
-        String poNO = "";
-        final String[] toFind = {""};
-
-        int itemRow;
-        int itemCol;
-        int pcRow;
-        int pcCol;
-
-
-        search.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                String temp = "Item: " + tf.getText();
-                toFind[0] += temp;
-            }
-        });
-
-        System.out.println("herheraklsjlakjf");
-        System.out.println(toFind[0]);
-        System.out.println();
-
-
-
-
-        //3. for loop to go through the string array, 存储
-        for (int i = 0; i < files.length; i++) {
-            boolean findETA = false;
-            boolean findContainer = false;
-            boolean findPO = false;
-            boolean findItem = false;
-            boolean findPc = false;
-
-
-            String fileName = "input/" + files[i];
-            FileInputStream fis = null;
-            Workbook wb = null;
-
-            try {
-                fis = new FileInputStream(new File(fileName));
-                wb = new XSSFWorkbook(fis);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            //i. store string for the date
-
-            XSSFSheet sheet = (XSSFSheet) wb.getSheetAt(0);
-            for (Row row : sheet) {
-                for (Cell cell : row) {
-
-                    switch (cell.getCellTypeEnum()) {
-                        case NUMERIC:
-                            break;
-                        case STRING:
-                            //finding the date
-                            if (cell.getStringCellValue().contains("ETA") || cell.getStringCellValue().contains("eta")) {
-                                System.out.print("ETA: ");
-                                int tempCol = cell.getAddress().getColumn() + 1;
-                                Cell temp = findCellCol(row, tempCol);
-                                cellDate = df.format(temp.getDateCellValue());
-                                System.out.println(cellDate);
-                                findETA = true;
                             }
-
-                            //finding the container number
-                            if (cell.getStringCellValue().contains("CONTAINER") || cell.getStringCellValue().contains("CNTR")) {
-                                System.out.print("CONTAINER NUMBER: ");
-                                int tempCol = cell.getAddress().getColumn() + 1;
-                                Cell temp = findCellCol(row, tempCol);
-                                containerNO = temp.getStringCellValue();
-                                System.out.println(containerNO);
-                                findContainer = true;
-                            }
-                            //finding PO#
-                            if (cell.getStringCellValue().contains("PO #") || cell.getStringCellValue().contains("PO#") || cell.getStringCellValue().toUpperCase().contains("PURCHASE ORDER")) {
-                                System.out.println();
-                                System.out.print("PURCHASE ORDER:");
-                                int tempCol = cell.getAddress().getColumn() + 1;
-                                Cell temp = findCellCol(row, tempCol);
-                                poNO = temp.getStringCellValue();
-                                System.out.println(poNO);
-                                findPO = true;
-                                break;
-                            }
-                            //find item row and column
-                            if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("ITEM")) {
-                                System.out.println(cell.getStringCellValue());
-                                itemCol = cell.getColumnIndex();
-                                itemRow = cell.getRowIndex(); //do we really need this?
-                                findItem = true;
-                            }
-                            //find pcs row and column
-                            if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("PCS")) {
-                                System.out.println(cell.getStringCellValue());
-                                pcCol = cell.getColumnIndex();
-                                pcRow = cell.getRowIndex(); //do we really need this?
-                                findPc = true;
-                            }
-
-                            if (findETA && findPO && findContainer && findItem && findPc)
-                                break;
+                        }
                     }
 
 
+                    //i. look for item --> store in a string array of all the items.
+                    //item对应一个class --》date，Container，PCS
+                    //-> 对应的列求出来
+                    //-> 存储每一列--》global array or new excel sheet (update: 每个月的单子不是一起来的，所以还是要做成arraylist)
 
 
-                    if (findETA && findPO && findContainer && findItem && findPc)
-                        break;
                 }
-            }
+
+                String result = "\nPO#: " + poNO + "\npcs: \nContainer NO/ seal: \nETA: ";
 
 
-            //i. look for item --> store in a string array of all the items.
-            //item对应一个class --》date，Container，PCS
-            //-> 对应的列求出来
-            //-> 存储每一列--》global array or new excel sheet (update: 每个月的单子不是一起来的，所以还是要做成arraylist)
-
-
-
-        }
-
-        String result = "\nPO#: " + poNO + "\npcs: \nContainer NO/ seal: \nETA: ";
-
-        search.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
                 String temp = "Item: " + tf.getText();
-                final String combined =  temp + result;
+                final String combined = temp + result;
                 ta.setFont(new Font("Ariel", Font.PLAIN, 18));
                 ta.setText(combined);
             }
         });
-
-
-
 
 
         // 二： load 好了，选择search
@@ -254,17 +214,7 @@ public class ExcelReader {
         //finding the column of the cell with information looking for
 
 
-
-
-
-
-
-
-
-
-
     }
-
     public static Cell findCellCol (Row row,int column){
         Cell temp = row.getCell(column);
         while (temp == null || temp.getCellTypeEnum() == CellType.BLANK) //in case there's empty cell between "CNTR" and ":"
