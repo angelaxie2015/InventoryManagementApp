@@ -3,12 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="cedac569-bd55-48c8-8fc0-3793390c1e32" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/INV-2010-003 (CUSTOMER - EXCEL).xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/input/INV-2010-003 (CUSTOMER - EXCEL).xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/~$INV PL-2004-005 (CUSTOMER).xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/input/~$INV PL-2006-004 (EXCEL).xlsx" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/ExcelReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/ExcelReader/Product.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/ExcelReader/Product.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ExcelReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ExcelReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Product.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Product.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -106,6 +107,7 @@
       <workItem from="1603982387414" duration="8632000" />
       <workItem from="1604002053517" duration="555000" />
       <workItem from="1604791936488" duration="267000" />
+      <workItem from="1604792322830" duration="853000" />
     </task>
     <servers />
   </component>

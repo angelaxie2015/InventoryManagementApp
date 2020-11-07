@@ -127,6 +127,7 @@ public class ExcelReader {
                     boolean findPO = false;
                     boolean findItem = false;
                     boolean findPc = false;
+                    int sameItem = 0;
 
 
                     String fileName = "input/" + files[i];
@@ -200,17 +201,20 @@ public class ExcelReader {
                                         double pcNum = pcTempCell.getNumericCellValue();
                                         Product product = new Product(poNO, toFind, containerNO,cellDate, pcNum);
                                         products.add(product);
+                                        sameItem++;
                                     }
 
-                                    if (findETA && findPO && findContainer && findItem && findPc){
-//                                        int diff = pcCol - itemCol;
-//                                        Row tempRow = cell.getRow();
-//                                        Cell pcTempCell = tempRow.getCell(cell.getColumnIndex() + diff);
-//                                        System.out.println(pcTempCell.getNumericCellValue());
-//                                        double pcNum = pcTempCell.getNumericCellValue();
-//                                        Product product = new Product(poNO, toFind, containerNO,cellDate, pcNum);
-//                                        products.add(product);
+                                    if(findContainer && findETA && findItem && findPc){
+                                        for(int x = products.size() - 1; x >= 0; x--){
+
+                                            while(sameItem-- > 0){
+                                                products.get(x).setContainerNo(containerNO);
+                                                System.out.println(products.get(x).getContainerNo());
+                                            }
+                                        }
                                     }
+
+
 
                             }
                         }
