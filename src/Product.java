@@ -29,7 +29,8 @@ public class Product {
     }
 
     public void setContainerNo(String containerNo){
-        this.containerNo = containerNo;
+
+      this.containerNo = containerNo;
     }
 
     public void setPCs(int pcs){

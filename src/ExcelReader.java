@@ -68,7 +68,7 @@ public class ExcelReader {
         //Creating the panel at bottom and adding components
         JPanel panel = new JPanel(); // the panel is not visible in output
         JLabel label = new JLabel("Enter item number:");
-        JTextField tf = new JTextField(20); // accepts upto 10 characters
+        JTextField tf = new JTextField(30); // accepts upto 30 characters
         JButton search = new JButton("Search");
         JButton reset = new JButton("Reset");
         JTextArea ta = new JTextArea();
@@ -88,45 +88,47 @@ public class ExcelReader {
 
         search.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-
-
                 String toFind = tf.getText();
-
+                int itemCol=0;
+                int pcCol=0;
 
                 ArrayList<Product> products = new ArrayList<Product>();
                 String pattern = "MM/dd/yyyy";
                 DateFormat df = new SimpleDateFormat(pattern); //formatting the date
 
-                //一：选择load
-
-                //1. put all the files in a folder
-
                 //2. store all the excel files in a string array as the names of the files;
                 File f = new File("input/");
+
+
+                /*
+
+
+                testing file names
+
+
+
+                */
 
                 String[] files = f.list();
                 for (String name : files)
                     System.out.println(name);
 
+                /*
 
 
-                int itemRow=0;
-                int itemCol=0;
-                int pcRow=0;
-                int pcCol=0;
+                testing file names
+
+
+
+                */
 
 
                 //3. for loop to go through the string array, 存储
                 for (int i = 0; i < files.length; i++) {
                     String cellDate="";
                     String containerNO="";
-                    String pcs="";
                     String poNO = "";
-                    boolean findETA = false;
                     boolean findContainer = false;
-                    boolean findPO = false;
-                    boolean findItem = false;
-                    boolean findPc = false;
                     int sameItem = 0;
 
 
@@ -157,7 +159,6 @@ public class ExcelReader {
                                         Cell temp = findCellCol(row, tempCol);
                                         cellDate = df.format(temp.getDateCellValue());
                                         System.out.println(cellDate);
-                                        findETA = true;
                                     }
 
                                     //finding the container number
@@ -177,23 +178,19 @@ public class ExcelReader {
                                         Cell temp = findCellCol(row, tempCol);
                                         poNO = temp.getStringCellValue();
                                         System.out.println(poNO);
-                                        findPO = true;
                                     }
                                     //find item row and column
                                     else if (cell.getCellTypeEnum() == CellType.STRING && cell.getStringCellValue().toUpperCase().contains("ITEM")) {
                                         System.out.println(cell.getStringCellValue());
                                         itemCol = cell.getColumnIndex();
-                                        findContainer = true;
                                     }
                                     //find pcs row and column
                                     else if (cell.getStringCellValue().toUpperCase().contains("PCS")) {
                                         System.out.println(cell.getStringCellValue());
                                         pcCol = cell.getColumnIndex();
-                                        findPc = true;
                                     }
                                     else if (cell.getStringCellValue().equals(toFind)) {
                                         System.out.println(toFind);
-                                        findItem = true;
                                         int diff = pcCol - itemCol;
                                         Row tempRow = cell.getRow();
                                         Cell pcTempCell = tempRow.getCell(cell.getColumnIndex() + diff);
@@ -204,56 +201,38 @@ public class ExcelReader {
                                         sameItem++;
                                     }
 
-                                    if(findContainer && findETA && findItem && findPc){
-                                        for(int x = products.size() - 1; x >= 0; x--){
-
-                                            while(sameItem-- > 0){
-                                                products.get(x).setContainerNo(containerNO);
-                                                System.out.println(products.get(x).getContainerNo());
-                                            }
+                                    if(findContainer && sameItem > 0){
+                                        System.out.println("Here");
+                                        for(int x = products.size() - 1; x >= 0 && sameItem-- > 0; x--){
+                                            System.out.println("container number right now issss " + containerNO);
+                                            products.get(x).setContainerNo(containerNO);
+                                            System.out.println(products.get(x).getContainerNo());
                                         }
                                     }
-
-
-
                             }
                         }
                     }
-
-
-                    //i. look for item --> store in a string array of all the items.
-                    //item对应一个class --》date，Container，PCS
-                    //-> 对应的列求出来
-                    //-> 存储每一列--》global array or new excel sheet (update: 每个月的单子不是一起来的，所以还是要做成arraylist)
-
-
                 }
 
-                System.out.println(products.size());
-
-                String combined = "";
-                for(Product pro: products) {
-                    String result = "\nPO#: " + pro.getPoNum() + "\npcs: " + pro.getPcs() + "\nContainer NO/ seal: " + pro.getContainerNo() + "\nETA: " + pro.getEta() + "\n\n";
-
-
-                    String temp = "Item: " + tf.getText();
-                    combined = combined + temp + result;
+                if(products.size() == 0) {
                     ta.setFont(new Font("Ariel", Font.PLAIN, 18));
-                    ta.setText(combined);
+                    ta.setText("Result not found, check item number again");
+                }else {
+                    String combined = "";
+                    for (Product pro : products) {
+                        String result = "\nPO#: " + pro.getPoNum() + "\npcs: " + pro.getPcs() + "\nContainer NO/ seal: " + pro.getContainerNo() + "\nETA: " + pro.getEta() + "\n\n";
+
+                        String temp = "Item: " + tf.getText();
+                        combined = combined + temp + result;
+                        ta.setFont(new Font("Ariel", Font.PLAIN, 18));
+                        ta.setText(combined);
+                    }
                 }
             }
         });
 
-
-        // 二： load 好了，选择search
-
-        //4. search excel sheet
-
-
-        //finding the column of the cell with information looking for
-
-
     }
+
     public static Cell findCellCol (Row row,int column){
         Cell temp = row.getCell(column);
         while (temp == null || temp.getCellTypeEnum() == CellType.BLANK) //in case there's empty cell between "CNTR" and ":"
@@ -268,8 +247,5 @@ public class ExcelReader {
         }
         return temp;
     }
-
-
-
 }
 
