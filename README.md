@@ -9,6 +9,11 @@ download [java](https://www.java.com/en/download/) and [jGRASP](https://spider.e
 
 ## How to use
 
+1. Put all the files to check in the input folder <br>
+2. Run the program
+3. In the popup, enter the Item number and click on search (case sensitive)
+4. Data will be displayed
+
 ## Excel sheet format
 ETA could be "ETA" or "eta"
 
