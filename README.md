@@ -7,6 +7,9 @@ Formating the excel files:
 
 download [java](https://www.java.com/en/download/) and [jGRASP](https://spider.eng.auburn.edu/user-cgi/grasp/grasp.pl?;dl=download_jgrasp.html) to run the program
 
+## Running on jGRASP
+
+
 ## How to use
 
 1. Put all the files to check in the input folder <br>
