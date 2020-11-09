@@ -11,6 +11,7 @@ download [java](https://www.java.com/en/download/) and [jGRASP](https://spider.e
 
 ## Excel sheet format
 ETA could be "ETA" or "eta"
+
 Container number could be formatted as "CONTAINER" or "CNTR"
 Purchase order number should be formatted as "PO #", "PO#", or "PURCHASE ORDER"
 Item should be displayed as "Item" or "ITEM"
