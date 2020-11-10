@@ -23,5 +23,3 @@ Purchase order number should be formatted as "PO #", "PO#", or "PURCHASE ORDER"
 Item should be displayed as "Item" or "ITEM"
 
 PCs should be displayed as "PCS"
-
-## Contributors
